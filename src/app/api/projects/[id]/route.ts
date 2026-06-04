@@ -3,9 +3,10 @@ import { getProjects, saveProjects, getProjectById } from "@/lib/projectsStore";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
-  const project = await getProjectById(params.id);
+  const { id } = await context.params;
+  const project = await getProjectById(id);
   if (!project) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -14,7 +15,7 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   const body = (await req.json()) as {
     title?: string;
@@ -23,7 +24,8 @@ export async function PUT(
   };
 
   const projects = await getProjects();
-  const index = projects.findIndex((p) => p.id === params.id);
+  const { id } = await context.params;
+  const index = projects.findIndex((p) => p.id === id);
   if (index === -1) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
