@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
-import { useSearchParams } from "next/navigation";
 
 type GalleryItem = { src: string };
 
@@ -31,7 +30,6 @@ const defaultProject: ProjectData = {
 };
 
 export default function ProjectOnePage() {
-  const searchParams = useSearchParams();
   const [project, setProject] = useState<ProjectData>(defaultProject);
   const [gallery, setGallery] = useState<GalleryItem[]>(defaultGallery);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -49,7 +47,12 @@ export default function ProjectOnePage() {
         const list = (await res.json()) as ProjectData[];
         if (!Array.isArray(list) || list.length === 0) return;
 
-        const id = searchParams.get("id");
+        let id: string | null = null;
+        if (typeof window !== "undefined") {
+          const params = new URLSearchParams(window.location.search);
+          id = params.get("id");
+        }
+
         const target = id ? list.find((item) => item.id === id) : undefined;
         const base = target ?? list[list.length - 1];
 
@@ -70,7 +73,7 @@ export default function ProjectOnePage() {
       }
     };
     load();
-  }, [searchParams]);
+  }, []);
 
   useEffect(() => {
     if (activeIndex === null) return;
