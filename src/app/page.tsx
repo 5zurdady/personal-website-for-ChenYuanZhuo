@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import ImageGallery from "@/components/ImageGallery";
 
@@ -15,14 +15,14 @@ export default function Home() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
     const shouldOpen =
-      searchParams.get("admin") === "1" || window.location.hash === "#admin";
+      params.get("admin") === "1" || window.location.hash === "#admin";
     if (shouldOpen) setShowAdmin(true);
-  }, [searchParams]);
+  }, []);
 
   const handleTrigger = () => {
     const next = clicks + 1;
