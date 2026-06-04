@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
+ import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
+ const nextConfig: NextConfig = {
+   // Disable built-in image optimization to avoid heavy memory usage in dev
+   images: {
+     unoptimized: true,
+   },
+ };
 
-export default nextConfig;
+ export default nextConfig;

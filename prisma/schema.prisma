@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model BlogPost {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  title     String
+  date      String
+  cover     String
+  excerpt   String
+  content   String[]
+  images    String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id        String   @id
+  title     String
+  description String
+  cover     String
+  images    String[]
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+model ShopItem {
+  id           String   @id
+  title        String
+  description  String
+  price        String
+  image        String
+  purchaseLink String
+  createdAt    DateTime
+  updatedAt    DateTime
+}
+
+model About {
+  id          Int    @id @default(1)
+  title       String
+  description String
+  image       String
+}
+
+model HomeImage {
+  id        Int      @id @default(autoincrement())
+  position  Int      @unique
+  src       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
