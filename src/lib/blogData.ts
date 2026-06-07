@@ -6,6 +6,8 @@ export type BlogPost = {
   excerpt: string;
   content: string[];
   images?: string[];
+  mediaType?: "image" | "video" | "both";
+  video?: string;
 };
 
 export const blogPosts: BlogPost[] = [

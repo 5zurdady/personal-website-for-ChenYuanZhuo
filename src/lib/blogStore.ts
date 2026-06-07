@@ -23,7 +23,9 @@ async function writeBlogFile(posts: BlogPost[]): Promise<void> {
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
   const posts = await readBlogFile();
-  return posts;
+  return posts
+    .slice()
+    .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
 }
 
 export async function saveBlogPosts(posts: BlogPost[]): Promise<void> {

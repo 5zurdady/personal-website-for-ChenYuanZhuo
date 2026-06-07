@@ -14,7 +14,10 @@ type Project = {
   id: string;
   title: string;
   description: string;
+  cover: string;
   images: string[];
+  mediaType?: "image" | "video" | "both";
+  video?: string;
 };
 
 export default function EditProjectPage() {
@@ -25,8 +28,11 @@ export default function EditProjectPage() {
   const [project, setProject] = useState<Project | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [cover, setCover] = useState("");
   const [images, setImages] = useState<string[]>([]);
   const [newImageInput, setNewImageInput] = useState("");
+  const [mediaType, setMediaType] = useState<"image" | "video" | "both">("image");
+  const [video, setVideo] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -34,6 +40,8 @@ export default function EditProjectPage() {
   const [deleted, setDeleted] = useState(false);
 
   const imagesFileInputRef = useRef<HTMLInputElement | null>(null);
+  const coverFileInputRef = useRef<HTMLInputElement | null>(null);
+  const videoFileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -54,7 +62,12 @@ export default function EditProjectPage() {
         setProject(data);
         setTitle(data.title ?? "");
         setDescription(data.description ?? "");
+        setCover(data.cover ?? "");
         setImages(Array.isArray(data.images) ? data.images : []);
+        setMediaType(
+          data.mediaType === "video" || data.mediaType === "both" ? data.mediaType : "image",
+        );
+        setVideo(data.video ?? "");
       } finally {
         setLoading(false);
       }
@@ -65,13 +78,43 @@ export default function EditProjectPage() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!id) return;
+    if (!title.trim() || !description.trim()) {
+      setError("标题和简介不能为空");
+      return;
+    }
+    if (mediaType !== "image" && !video.trim()) {
+      setError("视频文件名不能为空");
+      return;
+    }
     setSaving(true);
     setError("");
     try {
+      const payload: {
+        id: string;
+        title: string;
+        description: string;
+        images: string[];
+        cover?: string;
+        mediaType?: "image" | "video" | "both";
+        video?: string;
+      } = {
+        id,
+        title: title.trim(),
+        description,
+        images: mediaType === "image" || mediaType === "both" ? images : [],
+        mediaType,
+      };
+      if (cover.trim()) {
+        payload.cover = cover.trim();
+      }
+      if (mediaType !== "image") {
+        payload.video = video.trim();
+      }
+
       const res = await fetch(`/api/projects`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, title, description, images }),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => null);
@@ -95,6 +138,28 @@ export default function EditProjectPage() {
 
   const handleRemoveImage = (src: string) => {
     setImages((prev) => prev.filter((v) => v !== src));
+  };
+
+  const handleCoverFileButtonClick = () => {
+    coverFileInputRef.current?.click();
+  };
+
+  const handleCoverFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setCover(file.name);
+    event.target.value = "";
+  };
+
+  const handleVideoFileButtonClick = () => {
+    videoFileInputRef.current?.click();
+  };
+
+  const handleVideoFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setVideo(file.name);
+    event.target.value = "";
   };
 
   const handleImagesFileButtonClick = () => {
@@ -181,60 +246,161 @@ export default function EditProjectPage() {
               />
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               <label className="text-xs tracking-widest uppercase text-neutral-600">
-                照片列表（文件名）
+                封面图文件名（例如：Untitled_Artwork(2).jpg）
               </label>
               <div className="flex gap-2">
                 <input
                   type="text"
-                  value={newImageInput}
-                  onChange={(e) => setNewImageInput(e.target.value)}
+                  value={cover}
+                  onChange={(e) => setCover(e.target.value)}
                   className="flex-1 border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-black"
                 />
                 <button
                   type="button"
-                  onClick={handleAddImage}
-                  className="border border-neutral-300 px-3 py-2 text-xs tracking-widest uppercase hover:bg-neutral-100"
-                >
-                  添加
-                </button>
-                <button
-                  type="button"
-                  onClick={handleImagesFileButtonClick}
+                  onClick={handleCoverFileButtonClick}
                   className="border border-neutral-300 px-3 py-2 text-xs tracking-widest uppercase hover:bg-neutral-100"
                 >
                   选择文件
                 </button>
                 <input
-                  ref={imagesFileInputRef}
+                  ref={coverFileInputRef}
                   type="file"
                   accept="image/*"
-                  multiple
                   className="hidden"
-                  onChange={handleImagesFileChange}
+                  onChange={handleCoverFileChange}
                 />
               </div>
-              {images.length > 0 && (
-                <ul className="flex flex-wrap gap-2 text-xs text-neutral-700">
-                  {images.map((src) => (
-                    <li
-                      key={src}
-                      className="flex items-center gap-1 border border-neutral-200 px-2 py-1"
-                    >
-                      <span>{src}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveImage(src)}
-                        className="text-neutral-500 hover:text-black"
-                      >
-                        ×
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              <p className="text-[11px] text-neutral-500">
+                目前先使用已经在 public/images 里的文件名，后面可以再接入真正的图片上传。
+              </p>
             </div>
+
+            <div className="space-y-3">
+              <label className="text-xs tracking-widest uppercase text-neutral-600">
+                展示类型
+              </label>
+              <div className="flex gap-4 text-xs text-neutral-700">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    className="h-3 w-3"
+                    checked={mediaType === "image"}
+                    onChange={() => setMediaType("image")}
+                  />
+                  <span>照片</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    className="h-3 w-3"
+                    checked={mediaType === "video"}
+                    onChange={() => setMediaType("video")}
+                  />
+                  <span>视频</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    className="h-3 w-3"
+                    checked={mediaType === "both"}
+                    onChange={() => setMediaType("both")}
+                  />
+                  <span>照片 + 视频</span>
+                </label>
+              </div>
+            </div>
+
+            {mediaType !== "video" && (
+              <div className="space-y-3">
+                <label className="text-xs tracking-widest uppercase text-neutral-600">
+                  照片列表（文件名）
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newImageInput}
+                    onChange={(e) => setNewImageInput(e.target.value)}
+                    className="flex-1 border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-black"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddImage}
+                    className="border border-neutral-300 px-3 py-2 text-xs tracking-widest uppercase hover:bg-neutral-100"
+                  >
+                    添加
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleImagesFileButtonClick}
+                    className="border border-neutral-300 px-3 py-2 text-xs tracking-widest uppercase hover:bg-neutral-100"
+                  >
+                    选择文件
+                  </button>
+                  <input
+                    ref={imagesFileInputRef}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={handleImagesFileChange}
+                  />
+                </div>
+                {images.length > 0 && (
+                  <ul className="flex flex-wrap gap-2 text-xs text-neutral-700">
+                    {images.map((src) => (
+                      <li
+                        key={src}
+                        className="flex items-center gap-1 border border-neutral-200 px-2 py-1"
+                      >
+                        <span>{src}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage(src)}
+                          className="text-neutral-500 hover:text-black"
+                        >
+                          ×
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+
+            {mediaType !== "image" && (
+              <div className="space-y-2">
+                <label className="text-xs tracking-widest uppercase text-neutral-600">
+                  视频文件名（例如：demo.mp4）
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={video}
+                    onChange={(e) => setVideo(e.target.value)}
+                    className="flex-1 border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-black"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleVideoFileButtonClick}
+                    className="border border-neutral-300 px-3 py-2 text-xs tracking-widest uppercase hover:bg-neutral-100"
+                  >
+                    选择文件
+                  </button>
+                  <input
+                    ref={videoFileInputRef}
+                    type="file"
+                    accept="video/*"
+                    className="hidden"
+                    onChange={handleVideoFileChange}
+                  />
+                </div>
+                <p className="text-[11px] text-neutral-500">
+                  同样先使用已经在 public/videos 里的视频文件名，后面可以再接入真正的视频上传。
+                </p>
+              </div>
+            )}
 
             {error && <p className="text-[11px] text-red-500">{error}</p>}
 

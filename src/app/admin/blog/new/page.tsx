@@ -16,8 +16,11 @@ export default function NewBlogPostPage() {
 
   const coverFileInputRef = useRef<HTMLInputElement | null>(null);
   const imagesFileInputRef = useRef<HTMLInputElement | null>(null);
+  const videoFileInputRef = useRef<HTMLInputElement | null>(null);
   const [images, setImages] = useState<string[]>([]);
   const [newImageInput, setNewImageInput] = useState("");
+  const [mediaType, setMediaType] = useState<"image" | "video" | "both">("image");
+  const [video, setVideo] = useState("");
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -33,17 +36,40 @@ export default function NewBlogPostPage() {
         .map((p) => p.trim())
         .filter(Boolean);
 
+      const payload: any = {
+        title: title.trim(),
+        date: date.trim(),
+        cover: cover.trim() || undefined,
+        excerpt: excerpt.trim() || undefined,
+        content: paragraphs,
+        mediaType,
+      };
+
+      if (mediaType === "image") {
+        payload.images = images;
+      } else if (mediaType === "video") {
+        if (!video.trim()) {
+          setError("视频文件名是必填的");
+          setSaving(false);
+          return;
+        }
+        payload.video = video.trim();
+        payload.images = [];
+      } else {
+        // both
+        if (!video.trim()) {
+          setError("视频文件名是必填的");
+          setSaving(false);
+          return;
+        }
+        payload.video = video.trim();
+        payload.images = images;
+      }
+
       const res = await fetch("/api/blog", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: title.trim(),
-          date: date.trim(),
-          cover: cover.trim() || undefined,
-          excerpt: excerpt.trim() || undefined,
-          content: paragraphs,
-          images,
-        }),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => null);
@@ -93,6 +119,17 @@ export default function NewBlogPostPage() {
     if (!value) return;
     setImages((prev) => (prev.includes(value) ? prev : [...prev, value]));
     setNewImageInput("");
+  };
+
+  const handleVideoFileButtonClick = () => {
+    videoFileInputRef.current?.click();
+  };
+
+  const handleVideoFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setVideo(file.name);
+    event.target.value = "";
   };
 
   const handleRemoveImage = (src: string) => {
@@ -179,58 +216,128 @@ export default function NewBlogPostPage() {
 
           <div className="space-y-3">
             <label className="text-xs tracking-widest uppercase text-neutral-600">
-              图片列表（文件名）
+              展示类型
             </label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={newImageInput}
-                onChange={(e) => setNewImageInput(e.target.value)}
-                className="flex-1 border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-black"
-              />
-              <button
-                type="button"
-                onClick={handleAddImage}
-                className="border border-neutral-300 px-3 py-2 text-xs tracking-widest uppercase hover:bg-neutral-100"
-              >
-                添加
-              </button>
-              <button
-                type="button"
-                onClick={handleImagesFileButtonClick}
-                className="border border-neutral-300 px-3 py-2 text-xs tracking-widest uppercase hover:bg-neutral-100"
-              >
-                选择文件
-              </button>
-              <input
-                ref={imagesFileInputRef}
-                type="file"
-                accept="image/*"
-                multiple
-                className="hidden"
-                onChange={handleImagesFileChange}
-              />
+            <div className="flex gap-4 text-xs text-neutral-700">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  className="h-3 w-3"
+                  checked={mediaType === "image"}
+                  onChange={() => setMediaType("image")}
+                />
+                <span>照片</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  className="h-3 w-3"
+                  checked={mediaType === "video"}
+                  onChange={() => setMediaType("video")}
+                />
+                <span>视频</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  className="h-3 w-3"
+                  checked={mediaType === "both"}
+                  onChange={() => setMediaType("both")}
+                />
+                <span>照片 + 视频</span>
+              </label>
             </div>
-            {images.length > 0 && (
-              <ul className="flex flex-wrap gap-2 text-xs text-neutral-700">
-                {images.map((src) => (
-                  <li
-                    key={src}
-                    className="flex items-center gap-1 border border-neutral-200 px-2 py-1"
-                  >
-                    <span>{src}</span>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveImage(src)}
-                      className="text-neutral-500 hover:text-black"
-                    >
-                      ×
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
+
+          {mediaType !== "video" && (
+            <div className="space-y-3">
+              <label className="text-xs tracking-widest uppercase text-neutral-600">
+                图片列表（文件名）
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newImageInput}
+                  onChange={(e) => setNewImageInput(e.target.value)}
+                  className="flex-1 border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-black"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddImage}
+                  className="border border-neutral-300 px-3 py-2 text-xs tracking-widest uppercase hover:bg-neutral-100"
+                >
+                  添加
+                </button>
+                <button
+                  type="button"
+                  onClick={handleImagesFileButtonClick}
+                  className="border border-neutral-300 px-3 py-2 text-xs tracking-widest uppercase hover:bg-neutral-100"
+                >
+                  选择文件
+                </button>
+                <input
+                  ref={imagesFileInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={handleImagesFileChange}
+                />
+              </div>
+              {images.length > 0 && (
+                <ul className="flex flex-wrap gap-2 text-xs text-neutral-700">
+                  {images.map((src) => (
+                    <li
+                      key={src}
+                      className="flex items-center gap-1 border border-neutral-200 px-2 py-1"
+                    >
+                      <span>{src}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveImage(src)}
+                        className="text-neutral-500 hover:text-black"
+                      >
+                        ×
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {mediaType !== "image" && (
+            <div className="space-y-2">
+              <label className="text-xs tracking-widest uppercase text-neutral-600">
+                视频文件名（例如：demo.mp4）
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={video}
+                  onChange={(e) => setVideo(e.target.value)}
+                  className="flex-1 border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-black"
+                />
+                <button
+                  type="button"
+                  onClick={handleVideoFileButtonClick}
+                  className="border border-neutral-300 px-3 py-2 text-xs tracking-widest uppercase hover:bg-neutral-100"
+                >
+                  选择文件
+                </button>
+                <input
+                  ref={videoFileInputRef}
+                  type="file"
+                  accept="video/*"
+                  className="hidden"
+                  onChange={handleVideoFileChange}
+                />
+              </div>
+              <p className="text-[11px] text-neutral-500">
+                同样先使用已经在 public/videos 里的视频文件名，后面可以再接入真正的视频上传。
+              </p>
+            </div>
+          )}
 
           {error && <p className="text-[11px] text-red-500">{error}</p>}
 
