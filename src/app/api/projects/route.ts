@@ -13,20 +13,33 @@ export async function POST(req: NextRequest) {
     description?: string;
     cover?: string;
     images?: string[];
+    mediaType?: "image" | "video" | "both";
+    video?: string;
   };
 
-  if (!body.title || !body.description || !body.cover) {
+  if (!body.description || !body.cover) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
 
   const now = new Date().toISOString();
 
+  const mediaType: "image" | "video" | "both" =
+    body.mediaType === "video" || body.mediaType === "both" ? body.mediaType : "image";
+
+  if ((mediaType === "video" || mediaType === "both") && !body.video) {
+    return NextResponse.json({ error: "Missing video filename" }, { status: 400 });
+  }
+
+  const images = Array.isArray(body.images) ? body.images : [];
+
   const project: Project = {
     id: body.id ?? randomUUID(),
-    title: body.title,
+    title: body.title ?? "",
     description: body.description,
     cover: body.cover,
-    images: body.images ?? [],
+    images: mediaType === "image" || mediaType === "both" ? images : [],
+    mediaType,
+    video: mediaType === "video" || mediaType === "both" ? body.video : undefined,
     createdAt: now,
     updatedAt: now,
   };
@@ -39,13 +52,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  const body = (await req.json()) as {
-    id?: string;
-    title?: string;
-    description?: string;
-    cover?: string;
-    images?: string[];
-  };
+  const body = (await req.json()) as Partial<Project> & { id?: string };
 
   if (!body.id) {
     return NextResponse.json({ error: "Missing id" }, { status: 400 });

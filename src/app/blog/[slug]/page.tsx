@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
+import Link from "next/link";
 
 type BlogPost = {
   slug: string;
@@ -13,6 +14,8 @@ type BlogPost = {
   excerpt: string;
   content: string[];
   images?: string[];
+  mediaType?: "image" | "video" | "both";
+  video?: string;
 };
 
 export default function BlogPostPage() {
@@ -23,6 +26,8 @@ export default function BlogPostPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [prevPost, setPrevPost] = useState<BlogPost | null>(null);
+  const [nextPost, setNextPost] = useState<BlogPost | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -35,11 +40,14 @@ export default function BlogPostPage() {
         const res = await fetch("/api/blog");
         if (!res.ok) return;
         const list = (await res.json()) as BlogPost[];
-        const found = list.find((p) => p.slug === slug);
-        if (!found) {
+        const index = list.findIndex((p) => p.slug === slug);
+        if (index === -1) {
           setPost(null);
         } else {
+          const found = list[index];
           setPost(found);
+          setPrevPost(index > 0 ? list[index - 1] : null);
+          setNextPost(index < list.length - 1 ? list[index + 1] : null);
         }
       } catch (e: any) {
         setError(e.message || "加载失败");
@@ -148,28 +156,79 @@ export default function BlogPostPage() {
           ))}
         </article>
 
-        {Array.isArray(post.images) && post.images.length > 0 && (
+        {(post.mediaType === "video" || post.mediaType === "both") && post.video && (
           <section className="mt-10">
             <p className="text-[10px] tracking-[0.28em] uppercase text-neutral-500 mb-3">
-              Images
+              Video
             </p>
-            <div className="flex gap-4 overflow-x-auto pb-2">
-              {post.images.map((src, index) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={() => setActiveIndex(index)}
-                  className="group relative flex-shrink-0 w-60 md:w-72 aspect-[4/3] overflow-hidden border border-neutral-200 cursor-zoom-in"
-                >
-                  <Image
-                    src={`/images/${src}`}
-                    alt={src}
-                    fill
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                  />
-                </button>
-              ))}
+            <div className="relative w-full max-w-2xl aspect-video bg-black">
+              <video
+                src={`/videos/${post.video}`}
+                controls
+                className="w-full h-full object-contain"
+              />
             </div>
+          </section>
+        )}
+
+        {(post.mediaType === "image" || post.mediaType === "both" || !post.mediaType) &&
+          Array.isArray(post.images) &&
+          post.images.length > 0 && (
+            <section className="mt-10">
+              <p className="text-[10px] tracking-[0.28em] uppercase text-neutral-500 mb-3">
+                Images
+              </p>
+              <div className="flex gap-4 overflow-x-auto pb-2">
+                {post.images.map((src, index) => (
+                  <button
+                    key={src}
+                    type="button"
+                    onClick={() => setActiveIndex(index)}
+                    className="group relative flex-shrink-0 w-60 md:w-72 aspect-[4/3] overflow-hidden border border-neutral-200 cursor-zoom-in"
+                  >
+                    <Image
+                      src={`/images/${src}`}
+                      alt={src}
+                      fill
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                    />
+                  </button>
+                ))}
+              </div>
+            </section>
+          )}
+
+        {(prevPost || nextPost) && (
+          <section className="mt-12 flex items-center justify-between">
+            {prevPost ? (
+              <Link
+                href={`/blog/${prevPost.slug}`}
+                className="group flex items-center gap-2 text-xs md:text-sm text-neutral-700 hover:text-neutral-900"
+              >
+                <span className="text-lg leading-none group-hover:-translate-x-0.5 transition-transform">
+                  ‹
+                </span>
+                <span className="max-w-xs truncate">
+                  上一篇 {prevPost.title}
+                </span>
+              </Link>
+            ) : (
+              <span />
+            )}
+
+            {nextPost && (
+              <Link
+                href={`/blog/${nextPost.slug}`}
+                className="group ml-auto flex items-center gap-2 text-xs md:text-sm text-neutral-700 hover:text-neutral-900"
+              >
+                <span className="max-w-xs truncate text-right">
+                  下一篇 {nextPost.title}
+                </span>
+                <span className="text-lg leading-none group-hover:translate-x-0.5 transition-transform">
+                  ›
+                </span>
+              </Link>
+            )}
           </section>
         )}
       </main>

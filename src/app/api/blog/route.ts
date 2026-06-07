@@ -12,6 +12,8 @@ export async function POST(req: NextRequest) {
   const body = (await req.json()) as Partial<BlogPost> & {
     title?: string;
     content?: string[];
+    mediaType?: "image" | "video" | "both";
+    video?: string;
   };
 
   if (!body.title || !body.content || body.content.length === 0) {
@@ -38,6 +40,15 @@ export async function POST(req: NextRequest) {
   const now = new Date();
   const isoDate = body.date || now.toISOString().slice(0, 10);
 
+  const mediaType: "image" | "video" | "both" =
+    body.mediaType === "video" || body.mediaType === "both" ? body.mediaType : "image";
+
+  if ((mediaType === "video" || mediaType === "both") && !body.video) {
+    return NextResponse.json({ error: "Missing video filename" }, { status: 400 });
+  }
+
+  const images = Array.isArray(body.images) ? body.images : [];
+
   const post: BlogPost = {
     slug: uniqueSlug,
     title: body.title,
@@ -47,7 +58,9 @@ export async function POST(req: NextRequest) {
       body.excerpt ||
       (body.content[0].length > 140 ? `${body.content[0].slice(0, 140)}…` : body.content[0]),
     content: body.content,
-    images: Array.isArray(body.images) ? body.images : [],
+    images: mediaType === "image" || mediaType === "both" ? images : [],
+    mediaType,
+    video: mediaType === "video" || mediaType === "both" ? body.video : undefined,
   };
 
   posts.unshift(post);

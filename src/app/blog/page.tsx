@@ -30,6 +30,11 @@ export default async function BlogPage() {
                       fill
                       className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                     />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="px-4 text-sm md:text-base lg:text-lg font-semibold text-white text-center">
+                        {post.title}
+                      </p>
+                    </div>
                   </div>
                 </Link>
 
@@ -38,9 +43,7 @@ export default async function BlogPage() {
                     {post.date}
                   </p>
                   <Link href={`/blog/${post.slug}`} className="inline-block">
-                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold italic text-neutral-900 hover:opacity-70 transition-opacity">
-                      {post.title}
-                    </h2>
+                    <h2 className="sr-only">{post.title}</h2>
                   </Link>
                   <div className="mt-3">
                     <Link

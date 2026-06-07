@@ -7,6 +7,8 @@ export type Project = {
   description: string;
   cover: string;
   images: string[];
+  mediaType?: "image" | "video" | "both";
+  video?: string;
   createdAt: string;
   updatedAt: string;
 };

@@ -4,6 +4,10 @@ import { getAbout } from "@/lib/aboutStore";
 
 export default async function AboutPage() {
   const about = await getAbout();
+  const mainDescription =
+    "陈远卓如今在大学读法律专业，同时也在寻找一片永恒的雪天。\n\n联系我：（+86）18382326342";
+  const descriptionParagraphs = mainDescription.split(/\n\s*\n/);
+  const creditText = about.description || "网站制作来自吴宗翰";
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -23,7 +27,23 @@ export default async function AboutPage() {
 
           <div className="text-sm md:text-base text-neutral-600 leading-7 space-y-4">
             <h1 className="text-2xl md:text-3xl font-semibold text-neutral-900">{about.title}</h1>
-            <p>{about.description}</p>
+            {descriptionParagraphs.map((paragraph, index) => {
+              const name = "陈远卓";
+              const idx = paragraph.indexOf(name);
+              if (idx === -1) {
+                return <p key={index}>{paragraph}</p>;
+              }
+              return (
+                <p key={index}>
+                  {paragraph.slice(0, idx)}
+                  <strong>{name}</strong>
+                  {paragraph.slice(idx + name.length)}
+                </p>
+              );
+            })}
+            {creditText && (
+              <p className="text-xs text-neutral-500">{creditText}</p>
+            )}
           </div>
         </section>
       </main>

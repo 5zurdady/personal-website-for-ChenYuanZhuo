@@ -89,7 +89,6 @@ export default function AdminProjectsPage() {
                 {projects.map((p) => (
                   <li key={p.id} className="flex items-center justify-between py-2">
                     <div>
-                      <p className="font-medium text-neutral-900">{p.title}</p>
                       <p className="text-xs text-neutral-500 truncate max-w-[260px]">
                         {p.description}
                       </p>

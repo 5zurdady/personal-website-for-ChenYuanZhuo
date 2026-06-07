@@ -12,6 +12,8 @@ type ProjectData = {
   description: string;
   cover: string;
   images: string[];
+  mediaType?: "image" | "video" | "both";
+  video?: string;
 };
 
 const defaultGallery: GalleryItem[] = Array.from({ length: 21 }, (_, idx) => idx + 3).map(
@@ -27,12 +29,15 @@ const defaultProject: ProjectData = {
     "Placeholder description for Project One. Add your story, context, and credits here. Replace this text with real project copy to match the reference layout.",
   cover: "Untitled_Artwork(2).jpg",
   images: defaultGallery.map((g) => g.src),
+  mediaType: "image",
 };
 
 export default function ProjectOnePage() {
   const [project, setProject] = useState<ProjectData>(defaultProject);
   const [gallery, setGallery] = useState<GalleryItem[]>(defaultGallery);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [prevProject, setPrevProject] = useState<ProjectData | null>(null);
+  const [nextProject, setNextProject] = useState<ProjectData | null>(null);
 
   const currentImage =
     activeIndex !== null && activeIndex >= 0 && activeIndex < gallery.length
@@ -53,21 +58,39 @@ export default function ProjectOnePage() {
           id = params.get("id");
         }
 
-        const target = id ? list.find((item) => item.id === id) : undefined;
-        const base = target ?? list[list.length - 1];
+        const index = id ? list.findIndex((item) => item.id === id) : list.length - 1;
+        const safeIndex = index === -1 ? list.length - 1 : index;
+        const base = list[safeIndex];
 
         const merged: ProjectData = {
           ...defaultProject,
           ...base,
-          images: Array.isArray(base.images) && base.images.length ? base.images : defaultProject.images,
         };
-        setProject(merged);
-        setGallery(
-          (Array.isArray(merged.images) && merged.images.length
+
+        const effectiveMediaType: "image" | "video" | "both" =
+          merged.mediaType === "video" || merged.mediaType === "both"
+            ? merged.mediaType
+            : "image";
+
+        const effectiveImages =
+          (effectiveMediaType === "image" || effectiveMediaType === "both") &&
+          Array.isArray(merged.images) &&
+          merged.images.length
             ? merged.images
-            : defaultProject.images
-          ).map((src) => ({ src })),
-        );
+            : effectiveMediaType === "image" || effectiveMediaType === "both"
+            ? defaultProject.images
+            : [];
+
+        const finalProject: ProjectData = {
+          ...merged,
+          mediaType: effectiveMediaType,
+          images: effectiveImages,
+        };
+
+        setProject(finalProject);
+        setPrevProject(safeIndex > 0 ? list[safeIndex - 1] : null);
+        setNextProject(safeIndex < list.length - 1 ? list[safeIndex + 1] : null);
+        setGallery(effectiveImages.map((src) => ({ src })));
       } catch {
         // ignore fetch errors and keep defaults
       }
@@ -114,31 +137,79 @@ export default function ProjectOnePage() {
             />
           </div>
           <div className="flex flex-col gap-3 text-neutral-800">
-            <p className="text-xs tracking-widest uppercase text-neutral-500">Project One</p>
-            <h1 className="text-3xl md:text-4xl font-semibold">{project.title}</h1>
             <p className="text-sm md:text-base leading-7 text-neutral-600">{project.description}</p>
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-4 md:gap-6">
-          {gallery.map(({ src }, index) => (
-            <button
-              key={src}
-              type="button"
-              onClick={() => setActiveIndex(index)}
-              className="group relative overflow-hidden flex justify-center h-64 md:h-72 flex-[0_0_auto] cursor-zoom-in"
-            >
-              <Image
-                src={`/images/${src}`}
-                alt={src}
-                width={1654}
-                height={2339}
-                className="h-full w-auto object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        {(project.mediaType === "video" || project.mediaType === "both") && project.video && (
+          <div className="mt-6 max-w-7xl mx-auto w-full">
+            <div className="relative w-full aspect-video bg-black">
+              <video
+                src={`/videos/${project.video}`}
+                controls
+                className="w-full h-full object-contain"
               />
-            </button>
-          ))}
-        </div>
+            </div>
+          </div>
+        )}
+
+        {(project.mediaType === "image" || project.mediaType === "both" || !project.mediaType) && (
+          <div className="flex flex-wrap gap-4 md:gap-6">
+            {gallery.map(({ src }, index) => (
+              <button
+                key={src}
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                className="group relative overflow-hidden flex justify-center h-64 md:h-72 flex-[0_0_auto] cursor-zoom-in"
+              >
+                <Image
+                  src={`/images/${src}`}
+                  alt={src}
+                  width={1654}
+                  height={2339}
+                  className="h-full w-auto object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+              </button>
+            ))}
+          </div>
+        )}
+
+        {(prevProject || nextProject) && (
+          <section className="mt-12 flex items-center justify-between max-w-7xl mx-auto w-full">
+            {prevProject ? (
+              <a
+                href={`/projects/one?id=${prevProject.id}`}
+                className="group flex items-center gap-2 text-sm md:text-base text-neutral-700 hover:text-neutral-900"
+              >
+                <span className="text-lg leading-none group-hover:-translate-x-0.5 transition-transform">
+                  
+                  ‹
+                </span>
+                <span className="max-w-xs truncate">
+                  上一篇 {prevProject.title}
+                </span>
+              </a>
+            ) : (
+              <span />
+            )}
+
+            {nextProject && (
+              <a
+                href={`/projects/one?id=${nextProject.id}`}
+                className="group ml-auto flex items-center gap-2 text-sm md:text-base text-neutral-700 hover:text-neutral-900"
+              >
+                <span className="max-w-xs truncate">
+                  下一篇 {nextProject.title}
+                </span>
+                <span className="text-lg leading-none group-hover:translate-x-0.5 transition-transform">
+                  
+                  ›
+                </span>
+              </a>
+            )}
+          </section>
+        )}
 
         {currentImage && (
           <div
