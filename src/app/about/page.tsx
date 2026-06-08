@@ -5,7 +5,7 @@ import { getAbout } from "@/lib/aboutStore";
 export default async function AboutPage() {
   const about = await getAbout();
   const mainDescription =
-    "陈远卓如今在大学读法律专业，同时也在寻找一片永恒的雪天。\n\n联系我：（+86）18382326342";
+    "陈远卓如今在大学读法律专业，\n同时也在寻找一片永恒的雪天。\n\n联系我：2868511436(QQ)";
   const descriptionParagraphs = mainDescription.split(/\n\s*\n/);
   const creditText = about.description || "网站制作来自吴宗翰";
 
@@ -25,19 +25,29 @@ export default async function AboutPage() {
             />
           </div>
 
-          <div className="text-sm md:text-base text-neutral-600 leading-7 space-y-4">
-            <h1 className="text-2xl md:text-3xl font-semibold text-neutral-900">{about.title}</h1>
+          <div className="mt-8 md:mt-32 text-base md:text-lg lg:text-xl text-neutral-600 leading-8 space-y-5 md:pl-8 lg:pl-12">
             {descriptionParagraphs.map((paragraph, index) => {
               const name = "陈远卓";
-              const idx = paragraph.indexOf(name);
-              if (idx === -1) {
-                return <p key={index}>{paragraph}</p>;
-              }
+
+              // 先按行拆分（处理 \n），然后在每行里加粗名字
+              const lines = paragraph.split("\n");
+
               return (
-                <p key={index}>
-                  {paragraph.slice(0, idx)}
-                  <strong>{name}</strong>
-                  {paragraph.slice(idx + name.length)}
+                <p key={index} className="tracking-[0.22em]">
+                  {lines.map((line, lineIndex) => {
+                    const idx = line.indexOf(name);
+                    const before = idx === -1 ? line : line.slice(0, idx);
+                    const after = idx === -1 ? "" : line.slice(idx + name.length);
+
+                    return (
+                      <span key={lineIndex}>
+                        {before}
+                        {idx !== -1 && <strong>{name}</strong>}
+                        {after}
+                        {lineIndex < lines.length - 1 && <br />}
+                      </span>
+                    );
+                  })}
                 </p>
               );
             })}
