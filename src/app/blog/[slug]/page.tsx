@@ -175,9 +175,6 @@ export default function BlogPostPage() {
           Array.isArray(post.images) &&
           post.images.length > 0 && (
             <section className="mt-10">
-              <p className="text-[10px] tracking-[0.28em] uppercase text-neutral-500 mb-3">
-                Images
-              </p>
               <div className="flex gap-4 overflow-x-auto pb-2">
                 {post.images.map((src, index) => (
                   <button

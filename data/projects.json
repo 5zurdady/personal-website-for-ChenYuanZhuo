@@ -39,5 +39,66 @@
     "video": "习以为常.mvhalff.mp4",
     "createdAt": "2026-06-07T18:36:00.844Z",
     "updatedAt": "2026-06-07T18:36:00.844Z"
+  },
+  {
+    "id": "7fc760b9-c67e-4ef2-a976-920a6b048112",
+    "title": "乐队",
+    "description": "我们在律动中共呼吸。",
+    "cover": "BAND6.jpg",
+    "images": [
+      "BAND1.jpg",
+      "BAND2.jpg",
+      "BAND3.jpg",
+      "BAND4.jpg",
+      "BAND5.jpg",
+      "BAND6.jpg"
+    ],
+    "mediaType": "image",
+    "createdAt": "2026-06-08T12:59:42.390Z",
+    "updatedAt": "2026-06-08T13:04:58.679Z"
+  },
+  {
+    "id": "42141aa9-8860-47eb-a3e4-d1ab1ed91210",
+    "title": "绘画",
+    "description": "起身时擦落的墙灰，在角落堆成了画。",
+    "cover": "HUIHUA8.jpg",
+    "images": [
+      "HUIHUA1.jpg",
+      "HUIHUA2.jpg",
+      "HUIHUA3.jpg",
+      "HUIHUA4.jpg",
+      "HUIHUA5.jpg",
+      "HUIHUA6.jpg",
+      "HUIHUA7.jpg",
+      "HUIHUA8.jpg",
+      "HUIHUA9.jpg",
+      "HUIHUA10.jpg",
+      "HUIHUA11.jpg"
+    ],
+    "mediaType": "image",
+    "createdAt": "2026-06-08T13:02:09.123Z",
+    "updatedAt": "2026-06-08T13:02:09.123Z"
+  },
+  {
+    "id": "4c71ade5-f10b-4c7c-a061-66dd71642aca",
+    "title": "Julia",
+    "description": "乐高破坏者，全天下最喜欢人陪的小哈士奇。",
+    "cover": "XIAOGOU12.jpg",
+    "images": [
+      "XIAOGOU1.JPG",
+      "XIAOGOU2.jpg",
+      "XIAOGOU3.jpg",
+      "XIAOGOU4.jpg",
+      "XIAOGOU5.jpg",
+      "XIAOGOU6.jpg",
+      "XIAOGOU7.jpg",
+      "XIAOGOU8.jpg",
+      "XIAOGOU9.jpg",
+      "XIAOGOU10.jpg",
+      "XIAOGOU11.jpg"
+    ],
+    "mediaType": "image",
+    "createdAt": "2026-06-08T13:23:32.932Z",
+    "updatedAt": "2026-06-08T14:32:29.551Z"
   }
 ]

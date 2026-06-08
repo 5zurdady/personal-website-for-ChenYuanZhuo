@@ -18,7 +18,7 @@ export default async function ShopPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
-      <main className="flex-1 px-6 md:px-12 py-12 md:py-20 max-w-5xl w-full self-center">
+      <main className="flex-1 px-6 md:px-12 py-12 md:py-20 max-w-6xl w-full self-center">
         <p className="text-xs tracking-widest uppercase text-neutral-500 mb-3">Shop</p>
 
         {products.length === 0 ? (
@@ -27,7 +27,7 @@ export default async function ShopPage() {
           </p>
         ) : (
           <section>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 md:gap-x-12 lg:gap-x-16">
               {products.map((product) => (
                 <article
                   key={product.id}
@@ -66,6 +66,9 @@ export default async function ShopPage() {
                   </a>
                 </article>
               ))}
+              <div className="mt-6 sm:mt-0 text-sm md:text-base lg:text-lg text-neutral-600 leading-7 sm:flex sm:items-center sm:justify-end text-center sm:text-right pr-2 sm:pr-0">
+                <p className="tracking-[0.28em] sm:whitespace-nowrap">黑白明信片目前在淘宝有售，搜索“燕也有小卖部”。</p>
+              </div>
             </div>
           </section>
         )}
