@@ -5,7 +5,7 @@ import { getAbout } from "@/lib/aboutStore";
 export default async function AboutPage() {
   const about = await getAbout();
   const mainDescription =
-    "陈远卓如今在大学读法律专业，\n同时也在寻找一片永恒的雪天。\n\n联系我：2868511436(QQ)";
+    "陈远卓如今在大学读法律专业，\n同时也在寻找一片永恒的雪天。\n\n联系方式：2868511436(QQ)";
   const descriptionParagraphs = mainDescription.split(/\n\s*\n/);
   const creditText = about.description || "网站制作来自吴宗翰";
 
@@ -52,7 +52,12 @@ export default async function AboutPage() {
               );
             })}
             {creditText && (
-              <p className="text-xs text-neutral-500">{creditText}</p>
+              <>
+                <p className="text-xs text-neutral-500">
+                  本站所有文章、照片、视频均为个人独立创作，受著作权法保护，侵权必究。
+                </p>
+                <p className="text-xs text-neutral-500">{creditText}</p>
+              </>
             )}
           </div>
         </section>
