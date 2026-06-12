@@ -32,8 +32,17 @@ async function writeProjectsFile(projects: Project[]): Promise<void> {
   await fs.writeFile(PROJECTS_PATH, JSON.stringify(projects, null, 2), "utf8");
 }
 
+function getProjectMediaCount(project: Project): number {
+  const imageCount = Array.isArray(project.images) ? project.images.length : 0;
+  const videoCount = project.video ? 1 : 0;
+  return imageCount + videoCount;
+}
+
 export async function getProjects(): Promise<Project[]> {
-  return readProjectsFile();
+  const projects = await readProjectsFile();
+  return projects
+    .slice()
+    .sort((a, b) => getProjectMediaCount(b) - getProjectMediaCount(a));
 }
 
 export async function saveProjects(projects: Project[]): Promise<void> {

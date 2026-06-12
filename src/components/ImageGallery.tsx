@@ -58,7 +58,7 @@ export default function ImageGallery() {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch("/api/home-gallery");
+        const res = await fetch("/api/home-gallery-random");
         if (!res.ok) return;
         const data = (await res.json()) as { images?: string[] };
         if (!data.images || !Array.isArray(data.images) || data.images.length === 0) return;
