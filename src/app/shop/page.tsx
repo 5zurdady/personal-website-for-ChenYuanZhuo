@@ -66,8 +66,8 @@ export default async function ShopPage() {
                   </a>
                 </article>
               ))}
-              <div className="mt-6 sm:mt-0 text-sm md:text-base lg:text-lg text-neutral-600 leading-7 sm:flex sm:items-center sm:justify-end text-center sm:text-right pr-2 sm:pr-0">
-                <p className="tracking-[0.28em] sm:whitespace-nowrap">黑白明信片目前在淘宝有售，搜索“燕也有小卖部”。</p>
+              <div className="mt-6 sm:mt-0 text-sm md:text-base lg:text-lg text-neutral-600 leading-7 sm:flex sm:items-center sm:justify-end text-center sm:text-right pr-2 sm:-mr-14">
+                <p className="tracking-[0.28em] sm:whitespace-nowrap">黑白明信片目前在淘宝有售，请搜索“燕也有小卖部”。</p>
               </div>
             </div>
           </section>
