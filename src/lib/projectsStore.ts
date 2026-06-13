@@ -40,9 +40,12 @@ function getProjectMediaCount(project: Project): number {
 
 export async function getProjects(): Promise<Project[]> {
   const projects = await readProjectsFile();
-  return projects
+  const distortionProject = projects.find((p) => p.title === "失真");
+  const otherProjects = projects.filter((p) => p.title !== "失真");
+  const sortedOthers = otherProjects
     .slice()
     .sort((a, b) => getProjectMediaCount(b) - getProjectMediaCount(a));
+  return distortionProject ? [distortionProject, ...sortedOthers] : sortedOthers;
 }
 
 export async function saveProjects(projects: Project[]): Promise<void> {
