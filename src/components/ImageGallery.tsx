@@ -43,7 +43,35 @@ const baseCollage: CollageItem[] = [
   { src: "Untitled_Artwork(22).jpg", left: 980, top: -20, width: 190, height: 280, z: 9 },
 ];
 
+// Mobile collage layout (scaled for 375-430px screens)
+const mobileCollage: CollageItem[] = [
+  { src: "Untitled_Artwork(6).jpg", left: 5, top: 20, width: 100, height: 150 },
+  { src: "Untitled_Artwork(7).jpg", left: 110, top: -10, width: 80, height: 120 },
+  { src: "Untitled_Artwork(8).jpg", left: 195, top: 50, width: 100, height: 150 },
+  { src: "Untitled_Artwork(9).jpg", left: 300, top: -5, width: 110, height: 160 },
+  { src: "Untitled_Artwork(10).jpg", left: 5, top: 180, width: 75, height: 110 },
+  { src: "Untitled_Artwork(11).jpg", left: 85, top: 170, width: 110, height: 155 },
+  { src: "Untitled_Artwork(12).jpg", left: 200, top: 160, width: 80, height: 120 },
+  { src: CENTER_SRC, left: 130, top: 230, width: 140, height: 200, z: 12 }, // center bigger
+  { src: "Untitled_Artwork(13).jpg", left: 275, top: 180, width: 95, height: 140 },
+  { src: "Untitled_Artwork(14).jpg", left: 5, top: 300, width: 80, height: 120 },
+  { src: "Untitled_Artwork(15).jpg", left: 90, top: 290, width: 95, height: 140 },
+  { src: "Untitled_Artwork(16).jpg", left: 190, top: 280, width: 85, height: 125 },
+  { src: "Untitled_Artwork(17).jpg", left: 280, top: 285, width: 105, height: 150 },
+  { src: "Untitled_Artwork(18).jpg", left: 5, top: 420, width: 110, height: 160 },
+  { src: "Untitled_Artwork(19).jpg", left: 120, top: 415, width: 90, height: 130 },
+  { src: "Untitled_Artwork(20).jpg", left: 215, top: 410, width: 75, height: 110, z: 7 },
+  { src: "Untitled_Artwork(21).jpg", left: 295, top: 420, width: 85, height: 125, z: 8 },
+  { src: "Untitled_Artwork(22).jpg", left: 5, top: 540, width: 80, height: 120, z: 9 },
+];
+
 const nonCenterIndices = baseCollage.reduce<number[]>((acc, item, index) => {
+  if (item.src === CENTER_SRC) return acc;
+  acc.push(index);
+  return acc;
+}, []);
+
+const mobileNonCenterIndices = mobileCollage.reduce<number[]>((acc, item, index) => {
   if (item.src === CENTER_SRC) return acc;
   acc.push(index);
   return acc;
@@ -84,25 +112,48 @@ export default function ImageGallery() {
     });
   }, [images]);
 
-  const mobileImages = useMemo(() => collage.map((c) => c.src), [collage]);
+  const mobileCollageFinal: CollageItem[] = useMemo(() => {
+    if (!images.length) return mobileCollage;
+
+    return mobileCollage.map((item, index) => {
+      if (item.src === CENTER_SRC) return item;
+      const position = mobileNonCenterIndices.indexOf(index);
+      if (position === -1) return item;
+      const overrideSrc = images[position];
+      if (!overrideSrc) return item;
+      return { ...item, src: overrideSrc };
+    });
+  }, [images]);
   return (
     <section className="w-full px-4 md:px-0 pb-12 md:pb-20">
-      {/* Mobile / Tablet fallback: masonry-like grid */}
-      <div className="md:hidden grid grid-cols-2 gap-2">
-        {mobileImages.map((src) => (
-          <div
-            key={src}
-            className="relative aspect-[3/4] overflow-hidden bg-neutral-100"
-          >
-            <Image
-              src={resolveSrc(src)}
-              alt={src}
-              fill
-              className="object-cover"
-              sizes="50vw"
-            />
-          </div>
-        ))}
+      {/* Mobile collage */}
+      <div className="md:hidden">
+        <div className="relative mx-auto max-w-[390px] min-h-[700px]">
+          {mobileCollageFinal.map(({ src, left, top, width, height, z }) => (
+            <div
+              key={src}
+              className="absolute overflow-hidden bg-neutral-100 shadow-sm"
+              style={{
+                left,
+                top,
+                width,
+                height,
+                zIndex: z ?? 1,
+              }}
+            >
+              <div className="absolute inset-0 transition-transform duration-700 ease-out hover:scale-[1.04]">
+                <Image
+                  src={resolveSrc(src)}
+                  alt={src}
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                  priority={src === CENTER_SRC}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Desktop collage */}

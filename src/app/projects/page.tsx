@@ -31,9 +31,9 @@ export default async function ProjectsPage() {
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/35 transition-colors duration-300">
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 md:bg-black/0 md:group-hover:bg-black/35 transition-colors duration-300">
                     {p.title && (
-                      <p className="px-4 text-lg md:text-2xl lg:text-3xl tracking-[0.3em] font-semibold text-white text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="px-4 text-lg md:text-2xl lg:text-3xl tracking-[0.3em] font-semibold text-white text-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                         {p.title}
                       </p>
                     )}
