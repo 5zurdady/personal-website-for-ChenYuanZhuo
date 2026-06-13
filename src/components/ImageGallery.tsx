@@ -49,12 +49,12 @@ const mobileCollage: CollageItem[] = [
   { src: "Untitled_Artwork(7).jpg", left: 110, top: -10, width: 80, height: 120 },
   { src: "Untitled_Artwork(8).jpg", left: 195, top: 50, width: 100, height: 150 },
   { src: "Untitled_Artwork(9).jpg", left: 250, top: -5, width: 110, height: 160 },
-  { src: "Untitled_Artwork(10).jpg", left: 5, top: 180, width: 75, height: 110 },
+  { src: "Untitled_Artwork(10).jpg", left: 30, top: 180, width: 75, height: 110 },
   { src: "Untitled_Artwork(11).jpg", left: 85, top: 170, width: 110, height: 155 },
   { src: "Untitled_Artwork(12).jpg", left: 200, top: 160, width: 80, height: 120 },
   { src: CENTER_SRC, left: 130, top: 230, width: 140, height: 200, z: 12 }, // center bigger
   { src: "Untitled_Artwork(13).jpg", left: 275, top: 180, width: 95, height: 140 },
-  { src: "Untitled_Artwork(14).jpg", left: 5, top: 300, width: 80, height: 120 },
+  { src: "Untitled_Artwork(14).jpg", left: 20, top: 300, width: 80, height: 120 },
   { src: "Untitled_Artwork(15).jpg", left: 90, top: 290, width: 95, height: 140 },
   { src: "Untitled_Artwork(16).jpg", left: 190, top: 280, width: 85, height: 125 },
   { src: "Untitled_Artwork(17).jpg", left: 280, top: 285, width: 105, height: 150 },
@@ -62,7 +62,7 @@ const mobileCollage: CollageItem[] = [
   { src: "Untitled_Artwork(19).jpg", left: 120, top: 415, width: 90, height: 130 },
   { src: "Untitled_Artwork(20).jpg", left: 215, top: 410, width: 75, height: 110, z: 7 },
   { src: "Untitled_Artwork(21).jpg", left: 295, top: 420, width: 85, height: 125, z: 8 },
-  { src: "Untitled_Artwork(22).jpg", left: 5, top: 540, width: 80, height: 120, z: 9 },
+  { src: "Untitled_Artwork(22).jpg", left: 10, top: 420, width: 80, height: 120, z: 9 },
 ];
 
 const nonCenterIndices = baseCollage.reduce<number[]>((acc, item, index) => {
