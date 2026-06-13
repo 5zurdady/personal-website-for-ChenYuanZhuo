@@ -84,6 +84,9 @@ export default function Home() {
         >
           &copy;2026 ChenYuanzhuo
         </p>
+        <p className="text-[10px] tracking-widest uppercase text-neutral-400 mt-1">
+          蜀ICP备2026031249号
+        </p>
       </footer>
 
       {showAdmin && (

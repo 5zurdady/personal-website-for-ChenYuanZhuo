@@ -95,6 +95,9 @@ export default function BlogPostPage() {
           <p className="text-[10px] tracking-widest uppercase text-neutral-400">
             &copy;2026 ChenYuanzhuo
           </p>
+          <p className="text-[10px] tracking-widest uppercase text-neutral-400 mt-1">
+            蜀ICP备2026031249号
+          </p>
         </footer>
       </div>
     );
@@ -125,6 +128,9 @@ export default function BlogPostPage() {
         <footer className="w-full py-8 px-6 md:px-12 text-center">
           <p className="text-[10px] tracking-widest uppercase text-neutral-400">
             &copy;2026 ChenYuanzhuo
+          </p>
+          <p className="text-[10px] tracking-widest uppercase text-neutral-400 mt-1">
+            蜀ICP备2026031249号
           </p>
         </footer>
       </div>
@@ -292,6 +298,9 @@ export default function BlogPostPage() {
       <footer className="w-full py-8 px-6 md:px-12 text-center">
         <p className="text-[10px] tracking-widest uppercase text-neutral-400">
           &copy;2026 ChenYuanzhuo
+        </p>
+        <p className="text-[10px] tracking-widest uppercase text-neutral-400 mt-1">
+          蜀ICP备2026031249号
         </p>
       </footer>
     </div>
