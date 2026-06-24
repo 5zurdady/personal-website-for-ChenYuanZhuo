@@ -16,6 +16,7 @@ type BlogPost = {
   images?: string[];
   mediaType?: "image" | "video" | "both";
   video?: string;
+  note?: string;
 };
 
 export default function BlogPostPage() {
@@ -161,6 +162,10 @@ export default function BlogPostPage() {
             <p key={index}>{paragraph}</p>
           ))}
         </article>
+
+        {post.note && (
+          <p className="text-xs text-neutral-500 mt-6">{post.note}</p>
+        )}
 
         {(post.mediaType === "video" || post.mediaType === "both") && post.video && (
           <section className="mt-10">

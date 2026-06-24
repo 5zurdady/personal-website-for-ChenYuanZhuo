@@ -137,7 +137,11 @@ export default function ProjectOnePage() {
             />
           </div>
           <div className="flex flex-col gap-3 text-neutral-800">
-            <p className="text-sm md:text-base leading-7 text-neutral-600">{project.description}</p>
+            {project.description.split('\n').map((paragraph, index) => (
+              <p key={index} className="text-sm md:text-base leading-7 text-neutral-600">
+                {paragraph}
+              </p>
+            ))}
           </div>
         </div>
 

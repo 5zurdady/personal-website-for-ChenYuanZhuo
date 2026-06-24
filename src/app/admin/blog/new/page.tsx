@@ -21,6 +21,7 @@ export default function NewBlogPostPage() {
   const [newImageInput, setNewImageInput] = useState("");
   const [mediaType, setMediaType] = useState<"image" | "video" | "both">("image");
   const [video, setVideo] = useState("");
+  const [note, setNote] = useState("");
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -43,6 +44,7 @@ export default function NewBlogPostPage() {
         excerpt: excerpt.trim() || undefined,
         content: paragraphs,
         mediaType,
+        note: note.trim() || undefined,
       };
 
       if (mediaType === "image") {
@@ -211,6 +213,17 @@ export default function NewBlogPostPage() {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="w-full border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-black min-h-[200px]"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs tracking-widest uppercase text-neutral-600">备注</label>
+            <input
+              type="text"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              className="w-full border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-black"
+              placeholder="可选的备注信息"
             />
           </div>
 
