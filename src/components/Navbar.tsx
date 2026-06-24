@@ -10,7 +10,6 @@ type NavbarProps = {
 const NAV_ITEMS = [
   { label: "Projects", href: "/projects" },
   { label: "Blogs", href: "/blog" },
-  { label: "Shop", href: "/shop" },
   { label: "About", href: "/about" },
 ];
 

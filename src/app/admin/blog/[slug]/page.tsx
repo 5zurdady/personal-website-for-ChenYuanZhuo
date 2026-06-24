@@ -14,6 +14,7 @@ type BlogPost = {
   images?: string[];
   mediaType?: "image" | "video" | "both";
   video?: string;
+  note?: string;
 };
 
 export default function EditBlogPostPage() {
@@ -31,6 +32,7 @@ export default function EditBlogPostPage() {
   const [newImageInput, setNewImageInput] = useState("");
   const [mediaType, setMediaType] = useState<"image" | "video" | "both">("image");
   const [video, setVideo] = useState("");
+  const [note, setNote] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -63,6 +65,7 @@ export default function EditBlogPostPage() {
         setImages(Array.isArray(data.images) ? data.images : []);
         setMediaType(data.mediaType === "video" || data.mediaType === "both" ? data.mediaType : "image");
         setVideo(data.video ?? "");
+        setNote(data.note ?? "");
       } finally {
         setLoading(false);
       }
@@ -89,6 +92,7 @@ export default function EditBlogPostPage() {
         excerpt: excerpt.trim(),
         content: paragraphs,
         mediaType,
+        note: note.trim(),
       };
 
       if (mediaType === "image") {
@@ -287,6 +291,17 @@ export default function EditBlogPostPage() {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 className="w-full border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-black min-h-[200px]"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs tracking-widest uppercase text-neutral-600">备注</label>
+              <input
+                type="text"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                className="w-full border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-black"
+                placeholder="可选的备注信息"
               />
             </div>
 

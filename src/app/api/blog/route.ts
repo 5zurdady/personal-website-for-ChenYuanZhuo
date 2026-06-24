@@ -61,6 +61,7 @@ export async function POST(req: NextRequest) {
     images: mediaType === "image" || mediaType === "both" ? images : [],
     mediaType,
     video: mediaType === "video" || mediaType === "both" ? body.video : undefined,
+    note: body.note,
   };
 
   posts.unshift(post);

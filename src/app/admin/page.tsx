@@ -34,17 +34,6 @@ export default function AdminPage() {
           </Link>
 
           <Link
-            href="/admin/shop"
-            className="border border-neutral-200 p-6 hover:border-neutral-900 transition-colors"
-          >
-            <p className="text-xs tracking-widest uppercase text-neutral-500 mb-2">Shop</p>
-            <p className="text-sm text-neutral-800 mb-3">
-              管理 Shop 商品列表：新增、编辑和下架商品。
-            </p>
-            <span className="text-xs tracking-widest uppercase text-neutral-700">Enter</span>
-          </Link>
-
-          <Link
             href="/admin/about"
             className="border border-neutral-200 p-6 hover:border-neutral-900 transition-colors"
           >

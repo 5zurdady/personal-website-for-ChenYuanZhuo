@@ -61,7 +61,8 @@
     "images": [
       "配图b5.jpg"
     ],
-    "mediaType": "image"
+    "mediaType": "image",
+    "note": "本故事纯属虚构，文中人物、情节均为创作，如有雷同，纯属巧合。"
   },
   {
     "slug": "e526f42b",
@@ -156,6 +157,7 @@
     "images": [
       "配图b4.jpg"
     ],
-    "mediaType": "image"
+    "mediaType": "image",
+    "note": "本故事纯属虚构，文中人物、情节均为创作，如有雷同，纯属巧合。"
   }
 ]

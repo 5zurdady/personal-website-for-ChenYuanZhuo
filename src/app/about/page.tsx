@@ -5,7 +5,7 @@ import { getAbout } from "@/lib/aboutStore";
 export default async function AboutPage() {
   const about = await getAbout();
   const mainDescription =
-    "陈远卓如今在大学读法律专业，\n同时也在寻找一片永恒的雪天。\n\n联系方式：2868511436(QQ)";
+    "陈远卓在大学读法律专业，\n也在寻找一片永恒的雪天。\n\n联系方式：2868511436(QQ)";
   const descriptionParagraphs = mainDescription.split(/\n\s*\n/);
   const creditText = about.description || "网站制作来自吴宗翰";
 

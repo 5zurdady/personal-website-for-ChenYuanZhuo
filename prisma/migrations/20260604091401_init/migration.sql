@@ -28,20 +28,6 @@ CREATE TABLE "Project" (
 );
 
 -- CreateTable
-CREATE TABLE "ShopItem" (
-    "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    "price" TEXT NOT NULL,
-    "image" TEXT NOT NULL,
-    "purchaseLink" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "ShopItem_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "About" (
     "id" INTEGER NOT NULL DEFAULT 1,
     "title" TEXT NOT NULL,

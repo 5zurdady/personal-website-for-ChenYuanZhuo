@@ -30,17 +30,6 @@ model Project {
   updatedAt DateTime
 }
 
-model ShopItem {
-  id           String   @id
-  title        String
-  description  String
-  price        String
-  image        String
-  purchaseLink String
-  createdAt    DateTime
-  updatedAt    DateTime
-}
-
 model About {
   id          Int    @id @default(1)
   title       String
