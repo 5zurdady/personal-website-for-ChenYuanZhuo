@@ -32,7 +32,7 @@
   {
     "id": "af2f4572-21aa-4cbb-91a2-b41175d1d25a",
     "title": "旅摄",
-    "description": "这个网站建立前见过的一些好风景。",
+    "description": "一些好风景。",
     "cover": "LVSHE封面.jpg",
     "images": [
       "LVSHE (2).jpg",
@@ -75,7 +75,7 @@
     ],
     "mediaType": "image",
     "createdAt": "2026-06-12T02:51:40.021Z",
-    "updatedAt": "2026-06-24T03:18:31.483Z"
+    "updatedAt": "2026-07-23T14:18:28.001Z"
   },
   {
     "id": "288619e4-5552-4145-ac53-ab022891f5d6",
@@ -135,7 +135,7 @@
   {
     "id": "4c71ade5-f10b-4c7c-a061-66dd71642aca",
     "title": "JULIA",
-    "description": "幻想能变小然后骑在她身上。",
+    "description": "I’m deep diving into your emotions.",
     "cover": "XIAOGOU12.jpg",
     "images": [
       "XIAOGOU1.JPG",
@@ -148,12 +148,12 @@
     ],
     "mediaType": "image",
     "createdAt": "2026-06-08T13:23:32.932Z",
-    "updatedAt": "2026-06-12T10:46:59.820Z"
+    "updatedAt": "2026-07-23T14:17:33.342Z"
   },
   {
     "id": "6d0811f5-3902-4f09-964c-31ad7296e382",
     "title": "长发",
-    "description": "从来不拍照，除非是为了参加长发男选美大赛。\n\n摄影：HERMANO 63833815025（小红书）",
+    "description": "成都长发男选美参赛照。\n\n摄影：HERMANO 63833815025（小红书）",
     "cover": "CYZ封面.jpg",
     "images": [
       "CYZ (1).jpg",
@@ -165,7 +165,7 @@
     ],
     "mediaType": "image",
     "createdAt": "2026-06-24T03:24:16.019Z",
-    "updatedAt": "2026-06-24T03:24:59.684Z"
+    "updatedAt": "2026-07-23T14:17:18.962Z"
   },
   {
     "id": "7fc760b9-c67e-4ef2-a976-920a6b048112",
