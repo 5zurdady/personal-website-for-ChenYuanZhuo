@@ -45,6 +45,17 @@ export default function AdminPage() {
           </Link>
 
           <Link
+            href="/admin/reviews"
+            className="border border-neutral-200 p-6 hover:border-neutral-900 transition-colors"
+          >
+            <p className="text-xs tracking-widest uppercase text-neutral-500 mb-2">Reviews</p>
+            <p className="text-sm text-neutral-800 mb-3">
+              管理 Reviews 分类：Games、Movies 和 Books。
+            </p>
+            <span className="text-xs tracking-widest uppercase text-neutral-700">Enter</span>
+          </Link>
+
+          <Link
             href="/admin/home"
             className="border border-neutral-200 p-6 hover:border-neutral-900 transition-colors"
           >
