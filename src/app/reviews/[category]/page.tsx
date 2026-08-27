@@ -3,6 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { getReviews } from "@/lib/reviewsStore";
 import ScoreGuide from "@/components/ScoreGuide";
+import { reviewImagePath } from "@/lib/reviewImages";
 
 const CATEGORY_LABELS: Record<string, string> = { games: "Games", movies: "Movies", books: "Books" };
 
@@ -31,7 +32,7 @@ export default async function ReviewCategoryPage({ params }: { params: Promise<{
             {sortedReviews.map((review) => (
               <Link key={review.slug} href={`/reviews/${category}/${review.slug}`} className="group grid grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-6 md:gap-12 items-start">
                 <div className="relative w-full overflow-hidden bg-neutral-100">
-                  <Image src={`/images/${review.cover}`} alt={review.title} width={1200} height={675} className="block w-full h-auto transition-transform duration-500 ease-out group-hover:scale-[1.02]" sizes="(max-width: 768px) 100vw, 40vw" />
+                  <Image src={reviewImagePath(review, review.cover)} alt={review.title} width={1200} height={675} className="block w-full h-auto transition-transform duration-500 ease-out group-hover:scale-[1.02]" sizes="(max-width: 768px) 100vw, 40vw" />
                   <span className="absolute right-4 top-4 flex h-14 w-14 items-center justify-center rounded-full bg-white text-xl font-semibold text-neutral-900 shadow-sm">{review.score}</span>
                 </div>
                 <div className="pt-1 md:pt-3">

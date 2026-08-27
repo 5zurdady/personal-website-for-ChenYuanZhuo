@@ -35,20 +35,20 @@ export default function Navbar({ adminBadge = false }: NavbarProps) {
           <span className="ml-2 text-[11px] text-neutral-500">（管理员）</span>
         )}
       </Link>
-      <nav className="hidden md:flex items-center gap-8">
+      <nav className="hidden md:flex items-center gap-8 leading-none">
         {NAV_ITEMS.map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className="text-xs tracking-widest uppercase text-neutral-900 hover:opacity-50 transition-opacity duration-300"
+            className="inline-flex h-4 items-center border-0 bg-transparent p-0 font-inherit text-xs leading-4 tracking-widest uppercase text-neutral-900 hover:opacity-50 transition-opacity duration-300"
           >
             {item.label}
           </Link>
         ))}
-        <div className="relative">
+        <div className="relative inline-flex h-4 items-center">
           <button
             type="button"
-            className="text-xs tracking-widest uppercase text-neutral-900 hover:opacity-50 transition-opacity duration-300"
+            className="inline-flex h-4 items-center border-0 bg-transparent p-0 font-inherit text-xs leading-4 tracking-widest uppercase text-neutral-900 hover:opacity-50 transition-opacity duration-300"
             onClick={() => setReviewsOpen((prev) => !prev)}
             aria-expanded={reviewsOpen}
             aria-haspopup="menu"
@@ -72,7 +72,7 @@ export default function Navbar({ adminBadge = false }: NavbarProps) {
         </div>
         <Link
           href={ABOUT_ITEM.href}
-          className="text-xs tracking-widest uppercase text-neutral-900 hover:opacity-50 transition-opacity duration-300"
+          className="inline-flex h-4 items-center border-0 bg-transparent p-0 font-inherit text-xs leading-4 tracking-widest uppercase text-neutral-900 hover:opacity-50 transition-opacity duration-300"
         >
           {ABOUT_ITEM.label}
         </Link>
