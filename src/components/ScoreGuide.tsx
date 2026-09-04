@@ -32,7 +32,7 @@ export default function ScoreGuide() {
         </span>
       </button>
       <div
-        className={`absolute left-0 top-full z-10 mt-2 grid w-[calc(100vw-3rem)] max-w-[30rem] grid-cols-1 gap-x-6 overflow-hidden transition-all duration-500 ease-out sm:grid-cols-2 md:left-[calc(100%+1.25rem)] md:-mt-12 md:w-[30rem] ${
+        className={`relative left-0 top-auto z-10 mt-2 grid w-full max-w-none grid-cols-1 gap-x-6 overflow-hidden transition-all duration-500 ease-out sm:grid-cols-2 md:absolute md:left-[calc(100%+1.25rem)] md:top-full md:-mt-12 md:w-[30rem] md:max-w-[30rem] ${
           open ? "max-h-40 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
         }`}
         aria-hidden={!open}
