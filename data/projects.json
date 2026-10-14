@@ -31,7 +31,7 @@
   },
   {
     "id": "af2f4572-21aa-4cbb-91a2-b41175d1d25a",
-    "title": "旅摄",
+    "title": "旅行",
     "description": "一些好风景。",
     "cover": "LVSHE封面.jpg",
     "images": [
@@ -71,11 +71,20 @@
       "LVSHE (37).jpg",
       "LVSHE (38).jpg",
       "LVSHE (39).jpg",
-      "LVSHE (40).jpg"
+      "LVSHE (40).jpg",
+      "LX (2).jpg",
+      "LX (3).jpg",
+      "LX (4).jpg",
+      "LX (5).jpg",
+      "LX (6).jpg",
+      "LX (7).jpg",
+      "LX (8).jpg",
+      "LX (9).jpg",
+      "LX.jpg"
     ],
     "mediaType": "image",
     "createdAt": "2026-06-12T02:51:40.021Z",
-    "updatedAt": "2026-07-23T14:18:28.001Z"
+    "updatedAt": "2026-10-14T03:11:51.193Z"
   },
   {
     "id": "288619e4-5552-4145-ac53-ab022891f5d6",
@@ -152,8 +161,8 @@
   },
   {
     "id": "6d0811f5-3902-4f09-964c-31ad7296e382",
-    "title": "长发",
-    "description": "成都长发男选美参赛照。\n\n摄影：HERMANO 63833815025（小红书）",
+    "title": "形象",
+    "description": "产品以实物为准。",
     "cover": "CYZ封面.jpg",
     "images": [
       "CYZ (1).jpg",
@@ -165,7 +174,7 @@
     ],
     "mediaType": "image",
     "createdAt": "2026-06-24T03:24:16.019Z",
-    "updatedAt": "2026-07-23T14:17:18.962Z"
+    "updatedAt": "2026-10-14T03:05:03.112Z"
   },
   {
     "id": "7fc760b9-c67e-4ef2-a976-920a6b048112",

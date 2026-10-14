@@ -1,7 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import { getProjects } from "@/lib/projectsStore";
+
+// Server-side page metadata is generated without sending this code to the browser.
+export const metadata: Metadata = {
+  title: "Projects | ChenYuanzhuo",
+  description: "Selected projects by ChenYuanzhuo.",
+};
+
+// ISR: serve the cached page and refresh it in the background at most every 60 seconds.
+export const revalidate = 60;
 
 export default async function ProjectsPage() {
   const projects = await getProjects();
