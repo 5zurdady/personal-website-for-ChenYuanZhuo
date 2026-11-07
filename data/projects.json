@@ -202,5 +202,21 @@
     "video": "习以为常.mvhalff.mp4",
     "createdAt": "2026-06-07T18:36:00.844Z",
     "updatedAt": "2026-06-12T02:36:42.948Z"
+  },
+  {
+    "id": "5d83b843-1f1f-4903-82a0-14bbf5bc29e5",
+    "title": "COSPLAY",
+    "description": "双贤辉石头罩：魔法学院雷亚卢卡利亚之中，在探索之路受到肯定的学徒穿戴的其中一种辉石头罩。",
+    "cover": "COSPLAY (3).jpg",
+    "images": [
+      "COSPLAY (1).jpg",
+      "COSPLAY (2).jpg",
+      "COSPLAY (3).jpg",
+      "COSPLAY (4).jpg",
+      "COSPLAY (5).jpg"
+    ],
+    "mediaType": "image",
+    "createdAt": "2026-11-07T06:07:23.001Z",
+    "updatedAt": "2026-11-07T06:07:23.001Z"
   }
 ]
